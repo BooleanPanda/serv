@@ -4,7 +4,7 @@ class UserController {
     constructor(){};
     addUser = async (req, res) => {
         try {
-            const result = await service.addUser(req);
+            const result = await service.addUser(req.body);
             res.status(201).send(result);
         } catch (e) {
             res.status(400).send({error:e.message});
@@ -12,7 +12,7 @@ class UserController {
     };
     deleteUser = async (req, res) => {
         try {
-            const result = await service.deleteUser(req);
+            const result = await service.deleteUser(req.params.id);
             res.status(201).send(result);
         } catch (e) {
             res.status(400).send({error: e.message});
@@ -20,7 +20,7 @@ class UserController {
     };
     updateUser = async (req, res) => {
         try {
-            const result = await service.updateUser(req);
+            const result = await service.updateUser(req.params.id, req.body);
             res.status(201).send(result);
         } catch (e) {
             res.status(400).send({error: e.message});
@@ -36,7 +36,7 @@ class UserController {
     };
     getUserById = async (req, res) => {
         try {
-            const result = await service.getUserById(req);
+            const result = await service.getUserById(req.params.id);
             res.send(result);
         } catch (e) {
             res.status(400).send({error:e.message});

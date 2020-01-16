@@ -1,56 +1,49 @@
-const fs = require('fs');
+const User = require('../models/user');
 
-const data = JSON.parse(fs.readFileSync('./users.json','utf8'));
-
-async function updateUsersBD (value) {
-    fs.writeFile('./users.json', JSON.stringify(value), (err) => {
-        if (err) throw err;
-        console.log('The file has been successfully changed!');
-    });
-};
-
-const getAllUsers = async function(){
-    return data;
-};
-
-const getUserById = async function(req){
-    const userId = req.params.id;
-    const userIndex = data.findIndex(e => e.id === userId);
-    if (userIndex === -1) {
-        throw new Error ('no user found');
-    } else {
-        return data[userIndex];
+const getAllUsers = async function () {
+    try {
+        return await User.find({});
+    } catch (error) {
+        console.log(error);
     };
 };
 
-const addUser = async function(req){
-    const newUser = req.body;
-    data.push(newUser);
-    updateUsersBD(data);
-    return {message : 'user added'};
-};
-
-const updateUser = async function(req){
-    const user = req.body;
-    const userIndex = data.findIndex(e => e.id === user.id);
-    if (userIndex === -1) {
-        throw new Error ('no user found');
-    } else {
-        data[userIndex] = {...data[userIndex], ...user};
-        updateUsersBD(data);
-        return {message : 'user updated'};
+const getUserById = async function (userId) {
+    try {
+        return await User.findById(userId);
+    } catch (error) {
+        console.log(error);
     };
 };
 
-const deleteUser = async function(req){
-    const userId = req.params.id;
-    const userIndex = data.findIndex(e => e.id === userId);
-    if (userIndex === -1) {
-        throw new Error ('no user found');
-    } else {
-        data.splice(userIndex, 1);
-        updateUsersBD(data);
-        return {message : 'user deleted'};
+const addUser = async function (newUser) {
+    try {
+        const user = new User(newUser);
+        await user.save();
+        return {
+            message : 'user added',
+            user: user
+        };
+    } catch (error) {
+        console.log(error);
+    };
+};
+
+const updateUser = async function (userId, data) {
+    try {
+        await User.findByIdAndUpdate(userId, data);
+        return { message : `user with id ${userId} updated` };
+    } catch (error) {
+        console.log(error);
+    };
+};
+
+const deleteUser = async function (userId) {
+    try {
+        await User.deleteOne({_id : userId});
+        return { message : `user with id ${userId} deleted` };
+    } catch (error) {
+        console.log(error);
     };
 };
 
