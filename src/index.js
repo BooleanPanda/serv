@@ -1,12 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const router = require('./routers/user-router');
+const router = require('./routers/router-exports');
 
 const app = express();
 const port = 3000;
 
 app.use(express.json());
-app.use('/users', router);
+app.use('/users', router.userRouter);
+app.use('/pets', router.petRouter);
 
 async function start () {
     try {

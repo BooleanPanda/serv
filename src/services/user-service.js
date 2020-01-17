@@ -1,4 +1,6 @@
+const mongoose = require('mongoose');
 const User = require('../models/user');
+const Pet = require('../models/pet');
 
 const getAllUsers = async function () {
     try {
@@ -10,7 +12,20 @@ const getAllUsers = async function () {
 
 const getUserById = async function (userId) {
     try {
-        return await User.findById(userId);
+        /*return await User.findById(userId);*/
+        return await User.aggregate([
+            {
+                $lookup : {
+                    from: 'pets',
+                    localField: '_id',
+                    foreignField: 'owner',
+                    as: 'pets'
+                }
+            },
+            {
+                $match : { '_id': mongoose.Types.ObjectId(userId) }
+            }
+        ]);
     } catch (error) {
         console.log(error);
     };
@@ -47,10 +62,19 @@ const deleteUser = async function (userId) {
     };
 };
 
+const getUserPets = async function (userId) {
+    try {
+        return await Pet.find({userId}).populate('owner');
+    } catch (error) {
+        console.log(error);
+    };
+};
+
 module.exports = {
     getAllUsers,
     getUserById,
     addUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    getUserPets
 };

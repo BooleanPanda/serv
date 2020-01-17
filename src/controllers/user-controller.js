@@ -1,4 +1,4 @@
-const service = require('../services/service');
+const service = require('../services/user-service');
 
 class UserController {
     constructor(){};
@@ -37,6 +37,14 @@ class UserController {
     getUserById = async (req, res) => {
         try {
             const result = await service.getUserById(req.params.id);
+            res.send(result);
+        } catch (e) {
+            res.status(400).send({error:e.message});
+        };
+    };
+    getUserPets = async (req, res) => {
+        try {
+            const result = await service.getUserPets(req.body.id);
             res.send(result);
         } catch (e) {
             res.status(400).send({error:e.message});

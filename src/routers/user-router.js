@@ -3,12 +3,13 @@ const UserController = require('../controllers/user-controller');
 const admin = require('../middleware/admin');
 
 const userController = new UserController();
-const router = new express.Router();
+const userRouter = new express.Router();
 
-router.get('', userController.getAllUsers);
-router.get('/:id', userController.getUserById);
-router.post('', userController.addUser);
-router.put('/:id', userController.updateUser);
-router.delete('/:id', userController.deleteUser);
+userRouter.get('', userController.getAllUsers);
+userRouter.get('/:id', userController.getUserById);
+userRouter.get('/:id/pets', userController.getUserPets);
+userRouter.post('', userController.addUser);
+userRouter.put('/:id', userController.updateUser);
+userRouter.delete('/:id', userController.deleteUser);
 
-module.exports = router;
+module.exports = userRouter;
