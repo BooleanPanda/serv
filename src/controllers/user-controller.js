@@ -44,7 +44,7 @@ class UserController {
     };
     getUserPets = async (req, res) => {
         try {
-            const result = await service.getUserPets(req.body.id);
+            const result = await service.getUserPets(req.params.id);
             res.send(result);
         } catch (e) {
             res.status(400).send({error:e.message});

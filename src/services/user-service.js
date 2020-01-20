@@ -6,7 +6,10 @@ const getAllUsers = async function () {
     try {
         return await User.find({});
     } catch (error) {
-        console.log(error);
+        return {
+            message : `something went wrong`,
+            error : error 
+        };
     };
 };
 
@@ -27,7 +30,10 @@ const getUserById = async function (userId) {
             }
         ]);
     } catch (error) {
-        console.log(error);
+        return {
+            message : `something went wrong`,
+            error : error 
+        };
     };
 };
 
@@ -40,7 +46,10 @@ const addUser = async function (newUser) {
             user: user
         };
     } catch (error) {
-        console.log(error);
+        return {
+            message : `something went wrong`,
+            error : error 
+        };
     };
 };
 
@@ -49,7 +58,10 @@ const updateUser = async function (userId, data) {
         await User.findByIdAndUpdate(userId, data);
         return { message : `user with id ${userId} updated` };
     } catch (error) {
-        console.log(error);
+        return {
+            message : `something went wrong`,  
+            error : error 
+        };
     };
 };
 
@@ -58,15 +70,21 @@ const deleteUser = async function (userId) {
         await User.deleteOne({_id : userId});
         return { message : `user with id ${userId} deleted` };
     } catch (error) {
-        console.log(error);
+        return {
+            message : `something went wrong`,
+            error : error 
+        };
     };
 };
 
 const getUserPets = async function (userId) {
     try {
-        return await Pet.find({userId}).populate('owner');
+        return await Pet.find({owner: userId}).populate('owner');
     } catch (error) {
-        console.log(error);
+        return {
+            message : `something went wrong`,
+            error : error
+        };
     };
 };
 

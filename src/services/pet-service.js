@@ -4,7 +4,10 @@ const getAllPets = async function () {
     try {
         return await Pet.find({}).populate('owner');
     } catch (error) {
-        console.log(error);
+        return {
+            message : `something went wrong`,
+            error : error
+        };
     };
 };
 
@@ -12,7 +15,10 @@ const getPetById = async function (petId) {
     try {
         return await Pet.findById(petId);
     } catch (error) {
-        console.log(error);
+        return { 
+            message : `something went wrong`,
+            error : error
+        };
     };
 };
 
@@ -25,7 +31,10 @@ const addPet = async function (newPet) {
             pet: pet
         };
     } catch (error) {
-        console.log(error);
+        return {
+            message : `something went wrong`,
+            error : error 
+        };
     };
 };
 
@@ -34,7 +43,10 @@ const updatePet = async function (petId, data) {
         await Pet.findByIdAndUpdate(petId, data);
         return { message : `pet with id ${petId} updated` };
     } catch (error) {
-        console.log(error);
+        return {
+            message : `something went wrong`,
+            error : error 
+        };
     };
 };
 
@@ -43,7 +55,10 @@ const deletePet = async function (petId) {
         await Pet.deleteOne({_id : petId});
         return { message : `pet with id ${petId} deleted` };
     } catch (error) {
-        console.log(error);
+        return {
+            message : `something went wrong`,
+            error : error 
+        };
     };
 };
 
