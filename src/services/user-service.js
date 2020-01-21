@@ -41,6 +41,7 @@ const addUser = async function (newUser) {
     try {
         const user = new User(newUser);
         await user.save();
+        const token = await user.generateAuthToken();
         return {
             message : 'user added',
             user: user
@@ -88,11 +89,18 @@ const getUserPets = async function (userId) {
     };
 };
 
+const login = async function (req) {
+    const user = await User.findByCredentials(req.login, req.password);
+    const token = await user.generateAuthToken();
+    return {user, token};
+};
+
 module.exports = {
     getAllUsers,
     getUserById,
     addUser,
     updateUser,
     deleteUser,
-    getUserPets
+    getUserPets,
+    login
 };

@@ -9,6 +9,7 @@ userRouter.get('/:id/pets', userController.getUserPets);
 userRouter.get('/:id', userController.getUserById);
 userRouter.get('', userController.getAllUsers);
 userRouter.post('', userController.addUser);
+userRouter.post('/login', userController.login);
 userRouter.put('/:id', userController.updateUser);
 userRouter.delete('/:id', userController.deleteUser);
 

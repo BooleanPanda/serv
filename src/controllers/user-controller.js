@@ -50,6 +50,14 @@ class UserController {
             res.status(400).send({error:e.message});
         };
     };
+    login = async (req, res) => {      
+        try {
+            const result = await service.login(req.body);
+            res.status(201).send({message: 'Logged in!', result});
+        } catch (e) {
+            res.status(400).send({error:e.message});
+        }
+    }
 };
 
 module.exports = UserController;
