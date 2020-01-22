@@ -27,6 +27,10 @@ const userSchema = new Schema({
             };
         }
     },
+    email: {
+        type: String,
+        required: true
+    },
     tokens: [{
         token: {
             type: String,
