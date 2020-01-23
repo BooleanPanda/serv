@@ -27,6 +27,12 @@ const userSchema = new Schema({
             };
         }
     },
+    phone: {
+        type: String,
+        required: true,
+        minlength: 11,
+        maxlength: 12
+    },
     email: {
         type: String,
         required: true

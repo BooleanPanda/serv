@@ -20,6 +20,12 @@ const userValSchema = Joi.object().keys({
     password: Joi.string()
                  .required()
                  .label('password'),
+    phone: Joi.string()
+              .required()
+              .min(11)
+              .max(12)
+              .pattern(new RegExp(/^(375|80)(25|29|33|44)([1-9])(\d{6})$/s)).error(new Error('Invalid phone number'))
+              .label('phone'),
     email: Joi.string()
               .email()
               .required()
