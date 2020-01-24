@@ -18,15 +18,15 @@ const getUserById = async function (userId) {
         /*return await User.findById(userId);*/
         return await User.aggregate([
             {
+                $match : { '_id': mongoose.Types.ObjectId(userId) }
+            },
+            {
                 $lookup : {
                     from: 'pets',
                     localField: '_id',
                     foreignField: 'owner',
                     as: 'pets'
                 }
-            },
-            {
-                $match : { '_id': mongoose.Types.ObjectId(userId) }
             }
         ]);
     } catch (error) {
@@ -90,9 +90,16 @@ const getUserPets = async function (userId) {
 };
 
 const login = async function (req) {
-    const user = await User.findByCredentials(req.login, req.password);
-    const token = await user.generateAuthToken();
-    return {user, token};
+    try {
+        const user = await User.findByCredentials(req.login, req.password);
+        const token = await user.generateAuthToken();
+        return {user, token};
+    } catch (error) {
+        return {
+            message : `something went wrong`,
+            error : error
+        };
+    };
 };
 
 module.exports = {
